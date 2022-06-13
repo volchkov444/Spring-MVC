@@ -28,11 +28,11 @@ public class PeopleController {
         return "people/index";
     }
 
-    /*@GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
+    @GetMapping("/{id}")
+    public String show(@PathVariable("id") int id, Model model) throws SQLException {
         model.addAttribute("person", personDAO.show(id));
         return "people/show";
-    }*/
+    }
 
     @GetMapping("/new")
     public String newPerson(@ModelAttribute("person") Person person) {
@@ -44,30 +44,28 @@ public class PeopleController {
                          BindingResult bindingResult) throws SQLException {
         if (bindingResult.hasErrors())
             return "people/new";
-
         personDAO.save(person);
         return "redirect:/people";
     }
 
-    /*@GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
+    @GetMapping("/{id}/edit")
+    public String edit(Model model, @PathVariable("id") int id) throws SQLException {
         model.addAttribute("person", personDAO.show(id));
         return "people/edit";
-    }*/
+    }
 
-/*    @PatchMapping("/{id}")
+    @PatchMapping("/{id}")
     public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
-                         @PathVariable("id") int id) {
+                         @PathVariable("id") int id) throws SQLException {
         if (bindingResult.hasErrors())
             return "people/edit";
-
         personDAO.update(id, person);
         return "redirect:/people";
-    }*/
+    }
 
-  /*  @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id) {
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id) throws SQLException {
         personDAO.delete(id);
         return "redirect:/people";
-    }*/
+    }
 }
