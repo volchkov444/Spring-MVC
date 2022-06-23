@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.volchkov.dao.PersonDao;
 import ru.volchkov.models.Person;
+import ru.volchkov.util.PersonValidator;
 
 import javax.validation.Valid;
 import java.sql.SQLException;
@@ -16,9 +17,11 @@ import java.sql.SQLException;
 public class PeopleController {
 
     private final PersonDao personDAO;
+    PersonValidator personValidator;
 
     @Autowired
-    public PeopleController(PersonDao personDAO) {
+    public PeopleController(PersonDao personDAO, PersonValidator personValidator) {
+        this.personValidator = personValidator;
         this.personDAO = personDAO;
     }
 
@@ -42,6 +45,7 @@ public class PeopleController {
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult) {
+        personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors())
             return "people/new";
         personDAO.save(person);
@@ -57,6 +61,7 @@ public class PeopleController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
                          @PathVariable("id") int id) throws SQLException {
+        personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors())
             return "people/edit";
         personDAO.update(id, person);
