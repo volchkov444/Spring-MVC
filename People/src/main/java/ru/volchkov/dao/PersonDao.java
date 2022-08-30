@@ -37,9 +37,9 @@ public class PersonDao {
         jdbcTemplate.update("INSERT INTO Person(name,age,email,address) VALUES(?,?,?,?)", person.getName(), person.getAge(), person.getEmail(), person.getAddress());
     }
 
-    public void update(int id, Person updatedPerson) throws SQLException {
-        jdbcTemplate.update("UPDATE Person SET name=?,age=?,email=?,addres=? WHERE id=?", updatedPerson.getName(),
-                updatedPerson.getAge(), updatedPerson.getEmail(), updatedPerson.getAddress(), id);
+    public void update(int id, Person updatedPerson) {
+        jdbcTemplate.update("UPDATE Person SET name=?, age=?, email=? WHERE id=?", updatedPerson.getName(),
+                updatedPerson.getAge(), updatedPerson.getEmail(), id);
     }
 
     public void delete(int id) throws SQLException {

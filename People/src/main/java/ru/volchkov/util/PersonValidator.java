@@ -25,9 +25,11 @@ public class PersonValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         Person person = (Person) o;
-        if (personDao.show(person.getEmail()).isPresent()) {
-            errors.rejectValue("email", "", "This email is already used.");
-        }
 
+        if (personDao.show(person.getEmail()).isPresent()) {
+            errors.rejectValue("email", "", "This email is already in use");
+        }
+        if (!Character.isUpperCase(person.getName().codePointAt(0)))
+            errors.rejectValue("name", "", "Name should start with a capital letter");
     }
 }
